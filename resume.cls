@@ -1,4 +1,5 @@
 %%
+%% Copyright (c) 2024 Chaoqun Guo
 %% Copyright (c) 2018-2023 Weitian LI
 %% Copyright (c) 2016 Christophe Roger
 %% The LaTeX Project Public License (LPPL) Version 1.3c
@@ -88,7 +89,8 @@
 %%
 
 % Fonts
-\defaultfontfeatures{Mapping=tex-text}
+% \defaultfontfeatures{Mapping=tex-text}
+\defaultfontfeatures{Ligatures=TeX}
 \setmainfont{IBM Plex Serif}
 \setmonofont{IBM Plex Mono}
 
@@ -285,7 +287,7 @@
 % LinkedIn: \linkedin{<username>}
 \newcommand*{\linkedin}[1]{%
   \iconlink{\linkedinSymbol}%
-    {http://www.linkedin.com/in/#1}%
+    {https://www.linkedin.com/in/#1}%
     {linkedin.com/in/#1}%
 }
 % GitHub: \github{<username>}
@@ -400,6 +402,11 @@
   \textbf{#1} & #2 \\
 }
 
+%%
+%% Section: competences updated
+%%
+
+% \begin{competencesone}[width]
 \NewDocumentEnvironment{competencesone}{o}{%
   \IfValueTF{#1}{%
     \begin{tabular}{L{#1}}
@@ -446,12 +453,21 @@
 %%
 %% Section: educations updated
 %%
+
 \NewDocumentEnvironment{educationsone}{}{%
   \begin{tabular}{L{\linewidth}}
 }{%
   \end{tabular}
 }
 
+
+% \educationone
+%   {<start-date>}  % #1
+%   {<end-date>}    % #2
+%   {<school>}      % #3
+%   {<department>}  % #4
+%   {<major>}       % #5
+%   {<degree>}      % #6
 \NewDocumentCommand{\educationone}{m m m m m m}{
   \ifdef{\@zh}{%
     \IfValueTF{#2}{#1 - #2}{#1 - 现在} \\
@@ -460,6 +476,7 @@
     \IfValueTF{#2}{#1 - #2}{#1 - present} \\
     #4, \textbf{#3}, #6 in \textbf{#5} \\
   }
+
 }
 
 %%
@@ -531,27 +548,30 @@
 %%
 
 \NewDocumentEnvironment{experiencesone}{}{%
-  \begin{longtable}{L{\linewidth}}
+  \begin{tabular}{L{\linewidth}}
 }{%
-  \end{longtable}
+  \end{tabular}
 }
 
-% \experience
-%   [<start-date>]   % #1
+% \experienceone
+%   {<start-date>}   % #1
 %   {<end-date>}     % #2
-%   {<summary>}      % #3
-%   [<description>]  % #4
-%   [<tags>]         % #5
-\NewDocumentCommand{\experienceone}{o m m m o o}{
-  \IfValueT{#1}{#1} -- #2\\*
-  #3,#4
-  \IfNoValueOrEmptyTF{#5}{}{%
+%   {<role>}         % #3
+%   {<company>}      % #4
+%   {<location>}     % #5
+
+%   {<description>}  % #6
+%   [<tags>]         % #7
+\NewDocumentCommand{\experienceone}{m m m m m m o}{
+  \IfValueT{#1}{#1} - #2 \\
+  \textbf{#3}, \textit{#4}, \address{#5}
+  \IfNoValueOrEmptyTF{#6}{}{%
      & \begin{minipage}[t]{\linewidth}
-         #5
-       \end{minipage} \\*
+         #6
+       \end{minipage}\\
   }
-  \IfValueT{#6}{%
-    & \footnotesize{\tags{#5}} \\
+  \IfValueT{#7}{%
+    & \footnotesize{\tags{#7}} \\
   }
 }
 
@@ -588,6 +608,27 @@
       }
     } \enspace \\
 }
+
+%%
+%% Section: skills updated
+%%
+
+\NewDocumentEnvironment{skillsone}{}{%
+  \begin{tabular}{L{\linewi}}
+}{%
+  \end{tabular}
+}
+
+\NewDocumentCommand{\skillone}{m m}{
+  \textbf{#1} \\
+    \foreach \x in {1,...,5}{%
+      \color{accentcolor!80}{%
+        \ifnumgreater{\x}{#2}{\faCircleNotch}{\faCircle}
+      }
+    } \enspace \\
+}
+
+
 
 %%
 %% Section: referees
