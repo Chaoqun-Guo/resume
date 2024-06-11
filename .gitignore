@@ -4,11 +4,17 @@
 *.log
 *.out
 *.xdv
+*.fdb_latexmk
 auto/
 photos/
 photo.*
+funds/
+publications/
 submitted/
 dist/
 *.tar.bz2
 resume-en.pdf
 resume-zh.pdf
+resume-en.tex
+resume-zh.tex
+

@@ -174,12 +174,12 @@
 %%
 
 \newcommand*{\creativecommons}[2]{%
-  \href{http://creativecommons.org/licenses/#1/#2/}%
+  \href{https://creativecommons.org/licenses/#1/#2/}%
     {\faCreativeCommons{} \uppercase{#1} #2}%
 }
 
 \newcommand*{\githublink}[2]{%
-  \href{http://github.com/#1/#2}{\githubSymbol{} #1/#2}%
+  \href{https://github.com/#1/#2}{\githubSymbol{} #1/#2}%
 }
 
 \newcommand*{\link}[2]{\textcolor{linkcolor}{\href{#1}{#2}}}
@@ -318,9 +318,10 @@
 \newcommand*{\makeheader}{
   \ifdef{\@photowidth}{
     \begin{minipage}{\@photowidth}
+      \centering
       \ifthenelse{\equal{\@photoshape}{square}}{%
         \tikz\path[fill overzoom image={\@photofile}]
-          rectangle (\linewidth, \linewidth);
+          rectangle (0.85\linewidth, \linewidth);
       }{%
         \tikz\path[fill overzoom image={\@photofile}]
           circle[radius=0.5\linewidth];
@@ -399,6 +400,21 @@
   \textbf{#1} & #2 \\
 }
 
+\NewDocumentEnvironment{competencesone}{o}{%
+  \IfValueTF{#1}{%
+    \begin{tabular}{L{#1}}
+  }{%
+    \begin{tabular}{L{\linewidth}}
+  }
+}{%
+  \end{tabular}
+}
+
+\NewDocumentCommand{\competenceone}{m m}{
+  \textbf{#1} \\ \quad \parbox[t]{\dimexpr\linewidth-2em}{\small{#2}} \\
+}
+
+
 %%
 %% Section: educations
 %%
@@ -423,6 +439,26 @@
   }{%
     \IfValueTF{#2}{#2}{present} & #4, \textbf{#3} \\*
     #1 & #6 in #5 \\
+  }
+}
+
+
+%%
+%% Section: educations updated
+%%
+\NewDocumentEnvironment{educationsone}{}{%
+  \begin{tabular}{L{\linewidth}}
+}{%
+  \end{tabular}
+}
+
+\NewDocumentCommand{\educationone}{m m m m m m}{
+  \ifdef{\@zh}{%
+    \IfValueTF{#2}{#1 - #2}{#1 - 现在} \\
+    \textbf{#3} \textbullet #4 \textbullet #5 \textbullet #6 \\
+  }{%
+    \IfValueTF{#2}{#1 - #2}{#1 - present} \\
+    #4, \textbf{#3}, #6 in \textbf{#5} \\
   }
 }
 
@@ -488,6 +524,37 @@
     & \footnotesize{\tags{#5}} \\
   }
 }
+
+
+%%
+%% Section: experiences updated
+%%
+
+\NewDocumentEnvironment{experiencesone}{}{%
+  \begin{longtable}{L{\linewidth}}
+}{%
+  \end{longtable}
+}
+
+% \experience
+%   [<start-date>]   % #1
+%   {<end-date>}     % #2
+%   {<summary>}      % #3
+%   [<description>]  % #4
+%   [<tags>]         % #5
+\NewDocumentCommand{\experienceone}{o m m m o o}{
+  \IfValueT{#1}{#1} -- #2\\*
+  #3,#4
+  \IfNoValueOrEmptyTF{#5}{}{%
+     & \begin{minipage}[t]{\linewidth}
+         #5
+       \end{minipage} \\*
+  }
+  \IfValueT{#6}{%
+    & \footnotesize{\tags{#5}} \\
+  }
+}
+
 
 %%
 %% Two-column section
